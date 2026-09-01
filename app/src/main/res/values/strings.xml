@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SpotifyAndroidChallenge</string>
+    <string name="spotify_login_description">Explore artists, albums and songs with Spotify</string>
+    <string name="continue_with_spotify">Continue with Spotify</string>
+    <string name="spotify_authentication_error">Spotify authentication failed</string>
+    <string name="spotify_authentication_success">Spotify authentication successful</string>
 </resources>

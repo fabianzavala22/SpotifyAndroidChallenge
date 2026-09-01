@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -5,9 +7,20 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use {
+            load(it)
+        }
+    }
+}
+
+val spotifyClientId = localProperties.getProperty("SPOTIFY_CLIENT_ID") ?: ""
+
 android {
     namespace = "com.fabianzavala.spotifyandroidchallenge"
-
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -22,6 +35,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "SPOTIFY_CLIENT_ID",
+            "\"$spotifyClientId\""
+        )
     }
 
     buildTypes {
@@ -41,6 +60,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
