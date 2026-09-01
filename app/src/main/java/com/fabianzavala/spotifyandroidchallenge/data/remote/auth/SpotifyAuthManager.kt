@@ -63,6 +63,19 @@ class SpotifyAuthManager @Inject constructor(
         )
     }
 
+    suspend fun ensureValidAccessToken(): Boolean {
+        if (spotifySessionManager.isAccessTokenValid()) {
+            return true
+        }
+
+        return try {
+            refreshAccessToken()
+        } catch (exception: Exception) {
+            spotifySessionManager.clearSession()
+            false
+        }
+    }
+
     suspend fun refreshAccessToken(): Boolean {
         val refreshToken = spotifySessionManager.getRefreshToken() ?: return false
 

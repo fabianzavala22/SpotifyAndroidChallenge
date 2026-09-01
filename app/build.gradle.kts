@@ -79,6 +79,7 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
     implementation(libs.coil.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)

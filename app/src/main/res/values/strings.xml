@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">SpotifyAndroidChallenge</string>
-    <string name="spotify_login_description">Explore artists, albums and songs with Spotify</string>
-    <string name="continue_with_spotify">Continue with Spotify</string>
-    <string name="spotify_authentication_error">Spotify authentication failed</string>
-    <string name="spotify_authentication_success">Spotify authentication successful</string>
+    <string name="spotify_login_description">Explora artistas, álbumes y canciones con Spotify</string>
+    <string name="continue_with_spotify">Continuar con Spotify</string>
+    <string name="spotify_authentication_error">No se pudo iniciar sesión con Spotify</string>
+    <string name="spotify_authentication_success">Inicio de sesión exitoso</string>
+
+    <string name="artists_title">Descubre artistas</string>
+    <string name="search_artists_hint">Buscar artistas</string>
+    <string name="artists_loading">Cargando artistas...</string>
+    <string name="artists_error">Ocurrió un error al cargar los artistas</string>
+    <string name="retry">Reintentar</string>
 </resources>

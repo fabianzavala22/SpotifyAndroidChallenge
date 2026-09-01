@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
 import com.fabianzavala.spotifyandroidchallenge.data.remote.auth.SpotifyAuthManager
 import com.fabianzavala.spotifyandroidchallenge.data.remote.auth.SpotifySessionManager
+import com.fabianzavala.spotifyandroidchallenge.presentation.artists.ArtistsScreen
 import com.fabianzavala.spotifyandroidchallenge.presentation.auth.LoginScreen
 import com.fabianzavala.spotifyandroidchallenge.ui.theme.SpotifyAndroidChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,11 +33,18 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SpotifyAndroidChallengeTheme {
-                LoginScreen(
-                    onLoginClick = {
-                        openSpotifyLogin()
-                    }
-                )
+                if (spotifySessionManager.hasSession()) {
+                    ArtistsScreen(
+                        onArtistClick = {
+                        }
+                    )
+                } else {
+                    LoginScreen(
+                        onLoginClick = {
+                            openSpotifyLogin()
+                        }
+                    )
+                }
             }
         }
     }
@@ -82,6 +90,8 @@ class MainActivity : ComponentActivity() {
                         getString(R.string.spotify_authentication_success),
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    recreate()
                 } else {
                     showAuthenticationError()
                 }
