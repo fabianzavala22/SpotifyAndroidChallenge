@@ -1,4 +1,4 @@
-package com.fabianzavala.spotifyandroidchallenge.presentation.artists
+package com.fabianzavala.spotifyandroidchallenge.presentation.albums
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,13 +10,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,18 +21,20 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.fabianzavala.spotifyandroidchallenge.R
-import com.fabianzavala.spotifyandroidchallenge.domain.model.Artist
+import com.fabianzavala.spotifyandroidchallenge.domain.model.Album
 
 @Composable
-fun ArtistsScreen(
-    onArtistClick: (Artist) -> Unit,
-    viewModel: ArtistsViewModel = hiltViewModel()
+fun AlbumsScreen(
+    artistId: String,
+    artistName: String,
+    onAlbumClick: (Album) -> Unit,
+    viewModel: AlbumsViewModel = hiltViewModel()
 ) {
-    val artists = viewModel.artists.collectAsLazyPagingItems()
-
-    var searchText by remember {
-        mutableStateOf("")
+    val albumsFlow = remember(artistId) {
+        viewModel.getAlbums(artistId)
     }
+
+    val albums = albumsFlow.collectAsLazyPagingItems()
 
     Column(
         modifier = Modifier
@@ -44,40 +42,23 @@ fun ArtistsScreen(
             .padding(top = 16.dp)
     ) {
         Text(
-            text = stringResource(R.string.artists_title),
+            text = stringResource(
+                R.string.albums_title,
+                artistName
+            ),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        OutlinedTextField(
-            value = searchText,
-            onValueChange = { query ->
-                searchText = query
-                viewModel.searchArtists(query)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 12.dp
-                ),
-            placeholder = {
-                Text(
-                    text = stringResource(R.string.search_artists_hint)
-                )
-            },
-            singleLine = true
-        )
-
-        when (val refreshState = artists.loadState.refresh) {
+        when (albums.loadState.refresh) {
             is LoadState.Loading -> {
-                LoadingContent()
+                AlbumsLoadingContent()
             }
 
             is LoadState.Error -> {
-                ErrorContent(
+                AlbumsErrorContent(
                     onRetry = {
-                        artists.retry()
+                        albums.retry()
                     }
                 )
             }
@@ -87,22 +68,22 @@ fun ArtistsScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(
-                        count = artists.itemCount,
+                        count = albums.itemCount,
                         key = { index ->
-                            artists[index]?.id ?: index
+                            albums[index]?.id ?: index
                         }
                     ) { index ->
-                        val artist = artists[index]
+                        val album = albums[index]
 
-                        if (artist != null) {
-                            ArtistItem(
-                                artist = artist,
-                                onArtistClick = onArtistClick
+                        if (album != null) {
+                            AlbumItem(
+                                album = album,
+                                onAlbumClick = onAlbumClick
                             )
                         }
                     }
 
-                    if (artists.loadState.append is LoadState.Loading) {
+                    if (albums.loadState.append is LoadState.Loading) {
                         item {
                             Box(
                                 modifier = Modifier
@@ -121,7 +102,7 @@ fun ArtistsScreen(
 }
 
 @Composable
-private fun LoadingContent() {
+private fun AlbumsLoadingContent() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -133,14 +114,14 @@ private fun LoadingContent() {
             CircularProgressIndicator()
 
             Text(
-                text = stringResource(R.string.artists_loading)
+                text = stringResource(R.string.albums_loading)
             )
         }
     }
 }
 
 @Composable
-private fun ErrorContent(
+private fun AlbumsErrorContent(
     onRetry: () -> Unit
 ) {
     Box(
@@ -152,7 +133,7 @@ private fun ErrorContent(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = stringResource(R.string.artists_error)
+                text = stringResource(R.string.albums_error)
             )
 
             Button(

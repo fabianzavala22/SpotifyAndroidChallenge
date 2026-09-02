@@ -7,10 +7,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.rememberNavController
 import com.fabianzavala.spotifyandroidchallenge.data.remote.auth.SpotifyAuthManager
 import com.fabianzavala.spotifyandroidchallenge.data.remote.auth.SpotifySessionManager
-import com.fabianzavala.spotifyandroidchallenge.presentation.artists.ArtistsScreen
 import com.fabianzavala.spotifyandroidchallenge.presentation.auth.LoginScreen
+import com.fabianzavala.spotifyandroidchallenge.presentation.navigation.AppNavGraph
 import com.fabianzavala.spotifyandroidchallenge.ui.theme.SpotifyAndroidChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -34,9 +35,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             SpotifyAndroidChallengeTheme {
                 if (spotifySessionManager.hasSession()) {
-                    ArtistsScreen(
-                        onArtistClick = {
-                        }
+                    val navController = rememberNavController()
+
+                    AppNavGraph(
+                        navController = navController
                     )
                 } else {
                     LoginScreen(
@@ -72,11 +74,14 @@ class MainActivity : ComponentActivity() {
         val error = spotifyAuthManager.getAuthorizationError(uri)
 
         if (error != null) {
+            clearAuthorizationIntent()
             showAuthenticationError()
             return
         }
 
         val authorizationCode = spotifyAuthManager.getAuthorizationCode(uri) ?: return
+
+        clearAuthorizationIntent()
 
         lifecycleScope.launch {
             try {
@@ -99,6 +104,15 @@ class MainActivity : ComponentActivity() {
                 showAuthenticationError()
             }
         }
+    }
+
+    private fun clearAuthorizationIntent() {
+        setIntent(
+            Intent(
+                this,
+                MainActivity::class.java
+            )
+        )
     }
 
     private fun showAuthenticationError() {
