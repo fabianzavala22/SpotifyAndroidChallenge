@@ -8,10 +8,19 @@
     <string name="artists_title">Descubre artistas</string>
     <string name="search_artists_hint">Buscar artistas</string>
     <string name="artists_loading">Cargando artistas...</string>
+    <string name="artist_label">Artista</string>
+    <string name="artist_image_content_description">Imagen de %1$s</string>
     <string name="artists_error">Ocurrió un error al cargar los artistas</string>
 
     <string name="albums_title">Álbumes de %1$s</string>
     <string name="albums_loading">Cargando álbumes...</string>
+    <string name="album_image_content_description">Portada de %1$s</string>
+    <string name="back_content_description">Regresar</string>
+
+    <plurals name="album_tracks_count">
+        <item quantity="one">%d canción</item>
+        <item quantity="other">%d canciones</item>
+    </plurals>
     <string name="albums_error">Ocurrió un error al cargar los álbumes</string>
 
     <string name="tracks_title">Canciones de %1$s</string>

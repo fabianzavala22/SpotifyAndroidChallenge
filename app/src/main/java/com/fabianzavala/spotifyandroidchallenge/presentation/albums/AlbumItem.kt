@@ -15,8 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.fabianzavala.spotifyandroidchallenge.R
 import com.fabianzavala.spotifyandroidchallenge.domain.model.Album
 
 @Composable
@@ -30,38 +34,46 @@ fun AlbumItem(
             .clickable {
                 onAlbumClick(album)
             }
-            .padding(
-                horizontal = 16.dp,
-                vertical = 12.dp
-            ),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         AsyncImage(
             model = album.imageUrl,
-            contentDescription = album.name,
+            contentDescription = stringResource(
+                R.string.album_image_content_description,
+                album.name
+            ),
             modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(8.dp)),
+                .size(88.dp)
+                .clip(RoundedCornerShape(6.dp)),
             contentScale = ContentScale.Crop
         )
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
                 text = album.name,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(
                 text = album.releaseDate,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Text(
-                text = "${album.totalTracks} canciones",
-                style = MaterialTheme.typography.bodySmall
+                text = pluralStringResource(
+                    R.plurals.album_tracks_count,
+                    album.totalTracks,
+                    album.totalTracks
+                ),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

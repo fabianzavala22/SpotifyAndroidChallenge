@@ -18,6 +18,7 @@ class AlbumsViewModel @Inject constructor(
         config = PagingConfig(
             pageSize = AlbumPagingSource.PAGE_SIZE,
             initialLoadSize = AlbumPagingSource.PAGE_SIZE,
+            prefetchDistance = 2,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {

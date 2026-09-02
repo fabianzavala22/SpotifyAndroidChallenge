@@ -31,6 +31,7 @@ class ArtistsViewModel @Inject constructor(
                 config = PagingConfig(
                     pageSize = ArtistPagingSource.PAGE_SIZE,
                     initialLoadSize = ArtistPagingSource.PAGE_SIZE,
+                    prefetchDistance = 2,
                     enablePlaceholders = false
                 ),
                 pagingSourceFactory = {

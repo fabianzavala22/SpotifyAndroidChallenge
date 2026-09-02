@@ -18,6 +18,7 @@ class TracksViewModel @Inject constructor(
         config = PagingConfig(
             pageSize = TrackPagingSource.PAGE_SIZE,
             initialLoadSize = TrackPagingSource.PAGE_SIZE,
+            prefetchDistance = 2,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {

@@ -63,6 +63,9 @@ fun AppNavGraph(
                             albumName = Uri.encode(album.name)
                         )
                     )
+                },
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -88,7 +91,10 @@ fun AppNavGraph(
 
             TracksScreen(
                 albumId = albumId,
-                albumName = albumName
+                albumName = albumName,
+                onBackClick = {
+                    navController.popBackStack()
+                }
             )
         }
     }
