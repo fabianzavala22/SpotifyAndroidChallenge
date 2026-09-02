@@ -14,5 +14,9 @@
     <string name="albums_loading">Cargando álbumes...</string>
     <string name="albums_error">Ocurrió un error al cargar los álbumes</string>
 
+    <string name="tracks_title">Canciones de %1$s</string>
+    <string name="tracks_loading">Cargando canciones...</string>
+    <string name="tracks_error">Ocurrió un error al cargar las canciones</string>
+
     <string name="retry">Reintentar</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.fabianzavala.spotifyandroidchallenge.presentation.albums.AlbumsScreen
 import com.fabianzavala.spotifyandroidchallenge.presentation.artists.ArtistsScreen
+import com.fabianzavala.spotifyandroidchallenge.presentation.tracks.TracksScreen
 
 @Composable
 fun AppNavGraph(
@@ -55,8 +56,39 @@ fun AppNavGraph(
             AlbumsScreen(
                 artistId = artistId,
                 artistName = artistName,
-                onAlbumClick = {
+                onAlbumClick = { album ->
+                    navController.navigate(
+                        AppRoutes.tracks(
+                            albumId = album.id,
+                            albumName = Uri.encode(album.name)
+                        )
+                    )
                 }
+            )
+        }
+
+        composable(
+            route = AppRoutes.TRACKS,
+            arguments = listOf(
+                navArgument("albumId") {
+                    type = NavType.StringType
+                },
+                navArgument("albumName") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val albumId = backStackEntry.arguments
+                ?.getString("albumId")
+                .orEmpty()
+
+            val albumName = backStackEntry.arguments
+                ?.getString("albumName")
+                .orEmpty()
+
+            TracksScreen(
+                albumId = albumId,
+                albumName = albumName
             )
         }
     }
