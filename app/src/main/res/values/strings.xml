@@ -2,6 +2,7 @@
     <string name="app_name">SpotifyAndroidChallenge</string>
     <string name="spotify_login_description">Explora artistas, álbumes y canciones con Spotify</string>
     <string name="continue_with_spotify">Continuar con Spotify</string>
+    <string name="spotify_login_title">Explora tu música</string>
     <string name="spotify_authentication_error">No se pudo iniciar sesión con Spotify</string>
     <string name="spotify_authentication_success">Inicio de sesión exitoso</string>
 
